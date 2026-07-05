@@ -1,0 +1,31 @@
+meta {
+  name: Get Loan Propositions
+  type: http
+  seq: 1
+}
+
+method: POST
+url: {{baseUrl}}/api/consumer-lending-platform/loans/get-loan-propositions
+
+headers {
+  Content-Type: application/json
+}
+
+body: json {
+  journeyId: JRN-10001
+  loanAmount: 120000
+}
+
+tests {
+  test('Status code is 200', function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test('Response has propositions array', function() {
+    const body = res.getBody();
+    expect(body).to.have.property('journeyId');
+    expect(body).to.have.property('propositions');
+    expect(body.propositions).to.be.an('array');
+    expect(body.propositions.length).to.equal(4);
+  });
+}

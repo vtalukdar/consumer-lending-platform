@@ -6,7 +6,7 @@ import org.generic.consumerlending.service.LoanService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/loans")
+@RequestMapping("${api.loan.base-path}")
 @CrossOrigin("*")
 public class LoanController {
 
@@ -16,12 +16,12 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-    @PostMapping("/calculate")
+    @PostMapping("${api.loan.get-loan-propositions-path}")
     public LoanResponse calculate(@RequestBody LoanRequest request) {
         return loanService.calculate(request);
     }
 
-    @PostMapping("/accept")
+    @PostMapping("${api.loan.submit-loan-propositions-path}")
     public AcceptResponse accept(@RequestBody AcceptRequest request) {
         return loanService.accept(request);
     }

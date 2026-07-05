@@ -1,5 +1,6 @@
-
 spring:
+  config:
+    import: optional:classpath:application-generated.yml
   cassandra:
     contact-points: cassandra
     port: 9042

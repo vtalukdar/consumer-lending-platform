@@ -1,0 +1,29 @@
+meta {
+  name: Submit Loan Propositions
+  type: http
+  seq: 2
+}
+
+method: POST
+url: {{baseUrl}}/api/consumer-lending-platform/loans/submit-loan-propositions
+
+headers {
+  Content-Type: application/json
+}
+
+body: json {
+  journeyId: JRN-10001
+  chosenMonths: 24
+}
+
+tests {
+  test('Status code is 200', function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test('Response has contractId', function() {
+    const body = res.getBody();
+    expect(body).to.have.property('contractId');
+    expect(body.contractId).to.be.a('string');
+  });
+}

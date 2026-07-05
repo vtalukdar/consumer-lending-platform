@@ -1,6 +1,12 @@
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import { LOAN_ENDPOINTS } from "./resources/config/endpoints";
+
+// get-loan-propositions
+await axios.post(LOAN_ENDPOINTS.getLoanPropositions, payload);
+
+// submit-loan-propositions
+await axios.post(LOAN_ENDPOINTS.submitLoanPropositions, payload);
 import './App.css';
 
 function App() {
