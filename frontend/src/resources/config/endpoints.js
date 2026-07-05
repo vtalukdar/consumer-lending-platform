@@ -1,4 +1,4 @@
-import endpoints from "../../../../resources/api/endpoints.json";
+import endpoints from "./endpoints.json";
 
 const API_HOST = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
 
