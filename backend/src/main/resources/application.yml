@@ -1,0 +1,16 @@
+
+spring:
+  cassandra:
+    contact-points: cassandra
+    port: 9042
+    keyspace-name: lending
+    local-datacenter: datacenter1
+    schema-action: create_if_not_exists
+  kafka:
+    bootstrap-servers: kafka:9092
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus

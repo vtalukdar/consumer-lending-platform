@@ -1,0 +1,16 @@
+{
+  "version": "1",
+  "name": "Consumer Lending",
+  "requests": [
+    {
+      "name": "Calculate Loan",
+      "method": "POST",
+      "url": "http://localhost:8080/api/loans/calculate"
+    },
+    {
+      "name": "Accept Loan",
+      "method": "POST",
+      "url": "http://localhost:8080/api/loans/accept"
+    }
+  ]
+}

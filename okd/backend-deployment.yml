@@ -1,0 +1,20 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-lending-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer-lending-backend
+  template:
+    metadata:
+      labels:
+        app: consumer-lending-backend
+    spec:
+      containers:
+      - name: backend
+        image: consumer-lending-backend:latest
+        ports:
+        - containerPort: 8080
