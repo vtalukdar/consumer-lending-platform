@@ -1,16 +1,237 @@
 {
-  "version": "1",
-  "name": "Consumer Lending",
-  "requests": [
+  "info": {
+    "_postman_id": "b8bc56b4-f3e5-4a2d-b6d5-21a4d5f1a001",
+    "name": "Consumer Lending Platform APIs",
+    "description": "Collection for loan proposition calculation and acceptance APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
     {
-      "name": "Calculate Loan",
-      "method": "POST",
-      "url": "http://localhost:8080/api/loans/calculate"
+      "name": "Get Loan Propositions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"journeyId\": \"JRN-10001\",\n  \"loanAmount\": 120000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/consumer-lending-platform/loans/get-loan-propositions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "consumer-lending-platform",
+            "loans",
+            "get-loan-propositions"
+          ]
+        },
+        "description": "Returns available loan propositions for a journey."
+      },
+      "response": [
+        {
+          "name": "200 - Get Loan Propositions Success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"journeyId\": \"JRN-10001\",\n  \"loanAmount\": 120000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/consumer-lending-platform/loans/get-loan-propositions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "consumer-lending-platform",
+                "loans",
+                "get-loan-propositions"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"journeyId\": \"JRN-10001\",\n  \"propositions\": [\n    {\n      \"months\": 12,\n      \"totalAmount\": 120000,\n      \"monthlyInstallment\": 10000.0\n    },\n    {\n      \"months\": 24,\n      \"totalAmount\": 120000,\n      \"monthlyInstallment\": 5000.0\n    },\n    {\n      \"months\": 36,\n      \"totalAmount\": 120000,\n      \"monthlyInstallment\": 3333.33\n    },\n    {\n      \"months\": 48,\n      \"totalAmount\": 120000,\n      \"monthlyInstallment\": 2500.0\n    }\n  ]\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response has propositions array', function () {",
+              "  const jsonData = pm.response.json();",
+              "  pm.expect(jsonData).to.have.property('journeyId');",
+              "  pm.expect(jsonData).to.have.property('propositions');",
+              "  pm.expect(jsonData.propositions).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name": "Accept Loan",
-      "method": "POST",
-      "url": "http://localhost:8080/api/loans/accept"
+      "name": "Submit Loan Propositions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"journeyId\": \"JRN-10001\",\n  \"chosenMonths\": 24\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/consumer-lending-platform/loans/submit-loan-propositions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "consumer-lending-platform",
+            "loans",
+            "submit-loan-propositions"
+          ]
+        },
+        "description": "Accepts a selected proposition and returns a contract id."
+      },
+      "response": [
+        {
+          "name": "200 - Submit Loan Propositions Success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"journeyId\": \"JRN-10001\",\n  \"chosenMonths\": 24\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/consumer-lending-platform/loans/submit-loan-propositions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "consumer-lending-platform",
+                "loans",
+                "submit-loan-propositions"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"contractId\": \"LND08342\"\n}"
+        },
+        {
+          "name": "500 - Invalid Proposition Selected",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"journeyId\": \"JRN-10001\",\n  \"chosenMonths\": 99\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/consumer-lending-platform/loans/submit-loan-propositions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "consumer-lending-platform",
+                "loans",
+                "submit-loan-propositions"
+              ]
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "_postman_previewlanguage": "text",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain;charset=UTF-8"
+            }
+          ],
+          "body": "Invalid proposition selected"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response has contractId', function () {",
+              "  const jsonData = pm.response.json();",
+              "  pm.expect(jsonData).to.have.property('contractId');",
+              "  pm.expect(jsonData.contractId).to.be.a('string');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
     }
   ]
 }
