@@ -15,3 +15,10 @@ management:
     web:
       exposure:
         include: health,prometheus
+
+
+api:
+  loan:
+    base-path: ${API_LOAN_BASE_PATH:/api/consume-loans}
+    submit-loan-propositions-path: ${API_LOAN_SUBMIT_LOAN_PROPOSITIONS_PATH:/propositions/submit-option}
+    get-loan-propositions-path: ${API_LOAN_GET_LOAN_PROPOSITIONS_PATH:/get-options}

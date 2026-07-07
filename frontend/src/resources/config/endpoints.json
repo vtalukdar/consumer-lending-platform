@@ -1,0 +1,7 @@
+{
+  "loan": {
+    "basePath": "/api/consumer-loans",
+    "getLoanPropositions": "/get-options",
+    "submitLoanPropositions": "/propositions/submit-option"
+  }
+}
