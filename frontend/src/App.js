@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import { LOAN_ENDPOINTS } from './resources/config/endpoints';
 
 // Import Lion components
 import '@lion/ui/define/lion-input.js';
@@ -13,7 +14,6 @@ function App() {
   const [result, setResult] = useState(null);
   const [contract, setContract] = useState("");
 
-  // Refs for Lion inputs to capture their values
   const inputRefs = {
     firstName: useRef(null),
     lastName: useRef(null),
@@ -24,38 +24,62 @@ function App() {
     requestedMonths: useRef(null),
   };
 
-  // Set up event listeners for Lion inputs
   useEffect(() => {
+    const cleanupFns = [];
+
     Object.entries(inputRefs).forEach(([fieldName, ref]) => {
       if (ref.current) {
         const handleChange = (e) => {
-          setForm(prev => ({
+          setForm((prev) => ({
             ...prev,
             [fieldName]: e.target.modelValue
           }));
         };
-        ref.current.addEventListener('model-value-changed', handleChange);
 
-        // Cleanup
-        return () => {
+        ref.current.addEventListener('model-value-changed', handleChange);
+        cleanupFns.push(() => {
           ref.current?.removeEventListener('model-value-changed', handleChange);
-        };
+        });
       }
     });
+
+    return () => cleanupFns.forEach((fn) => fn());
   }, []);
 
   const submit = async () => {
-    const payload = { ...form, journeyId: crypto.randomUUID() };
-    const response = await axios.post('http://localhost:8080/api/loans/calculate', payload);
-    setResult(response.data);
+    try {
+      const payload = { ...form, journeyId: crypto.randomUUID() };
+      const response = await axios.post(LOAN_ENDPOINTS.getLoanPropositions, payload);
+      setResult(response.data);
+    } catch (error) {
+      console.error('Submit failed:', {
+        url: LOAN_ENDPOINTS.getLoanPropositions,
+        message: error?.message,
+        code: error?.code,
+        status: error?.response?.status,
+        data: error?.response?.data
+      });
+      throw error;
+    }
   };
 
   const accept = async (months) => {
-    const response = await axios.post('http://localhost:8080/api/loans/accept', {
-      journeyId: result.journeyId,
-      chosenMonths: months
-    });
-    setContract(response.data.contractId);
+    try {
+      const response = await axios.post(LOAN_ENDPOINTS.submitLoanPropositions, {
+        journeyId: result.journeyId,
+        chosenMonths: months
+      });
+      setContract(response.data.contractId);
+    } catch (error) {
+      console.error('Accept failed:', {
+        url: LOAN_ENDPOINTS.submitLoanPropositions,
+        message: error?.message,
+        code: error?.code,
+        status: error?.response?.status,
+        data: error?.response?.data
+      });
+      throw error;
+    }
   };
 
   return (
@@ -64,29 +88,10 @@ function App() {
 
         {!result && (
             <div className="card">
-              <lion-input
-                  ref={inputRefs.firstName}
-                  label="First Name"
-                  name="firstName"
-              ></lion-input>
-
-              <lion-input
-                  ref={inputRefs.lastName}
-                  label="Last Name"
-                  name="lastName"
-              ></lion-input>
-
-              <lion-input
-                  ref={inputRefs.address}
-                  label="Address"
-                  name="address"
-              ></lion-input>
-
-              <lion-input-email
-                  ref={inputRefs.email}
-                  label="Email"
-                  name="email"
-              ></lion-input-email>
+              <lion-input ref={inputRefs.firstName} label="First Name" name="firstName"></lion-input>
+              <lion-input ref={inputRefs.lastName} label="Last Name" name="lastName"></lion-input>
+              <lion-input ref={inputRefs.address} label="Address" name="address"></lion-input>
+              <lion-input-email ref={inputRefs.email} label="Email" name="email"></lion-input-email>
 
               <lion-input-amount
                   ref={inputRefs.loanAmount}

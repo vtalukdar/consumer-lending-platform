@@ -87,7 +87,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       API_LOAN_BASE_PATH: /api/consumer-loans
       API_LOAN_SUBMIT_LOAN_PROPOSITIONS_PATH: /propositions/submit-option
-      API_LOAN_GET_LOAN_PROPOSITIONS_PATH: /propositions/get-options
+      #API_LOAN_GET_LOAN_PROPOSITIONS_PATH: /propositions/get-options
       HTTP_PROXY: ""
       HTTPS_PROXY: ""
       NO_PROXY: "localhost,127.0.0.1,host.docker.internal,prometheus,grafana,backend,kafka,zookeeper,cassandra"
