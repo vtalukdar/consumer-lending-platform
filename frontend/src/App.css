@@ -1,35 +1,101 @@
-
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: white;
 }
+
 .container {
   padding: 40px;
+  max-width: 600px;
+  margin: 0 auto;
 }
+
 h1 {
   color: #FF6200;
 }
+
 .card {
   max-width: 500px;
   border: 1px solid #ddd;
   padding: 20px;
   border-radius: 8px;
 }
-input {
+
+/* Lion Input Styling */
+lion-input,
+lion-input-amount,
+lion-input-email {
   display: block;
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 10px;
+  margin-bottom: 16px;
 }
-button {
+
+/* Style the label inside Lion inputs */
+lion-input::part(label),
+lion-input-amount::part(label),
+lion-input-email::part(label) {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+/* Style the actual input field */
+lion-input::part(input),
+lion-input-amount::part(input),
+lion-input-email::part(input) {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+lion-input::part(input):focus,
+lion-input-amount::part(input):focus,
+lion-input-email::part(input):focus {
+  border-color: #FF6200;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 98, 0, 0.2);
+}
+
+/* Lion Button Styling */
+lion-button {
+  --button-bg: #FF6200;
+  --button-color: white;
+  margin-top: 16px;
+}
+
+lion-button::part(button) {
   background: #FF6200;
   color: white;
   border: none;
-  padding: 10px 18px;
+  padding: 12px 24px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
 }
+
+lion-button::part(button):hover {
+  background: #e55800;
+}
+
 .proposal {
   border-bottom: 1px solid #eee;
-  margin-bottom: 10px;
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.proposal p {
+  margin: 0;
+}
+
+.proposal lion-button {
+  margin-top: 0;
+}
+
+h3 {
+  color: #28a745;
+  margin-top: 20px;
 }
